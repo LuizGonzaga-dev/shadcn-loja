@@ -1,7 +1,10 @@
 "use client"
 
 import { Product } from "@/types/product";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { useCartStore } from "@/stores/cart-store";
 
 type Props = {
     item: Product;
@@ -9,8 +12,18 @@ type Props = {
 
 export const Item = ({item} : Props) => {
 
+    const {toast} = useToast();
+    const {upSertCartItem} = useCartStore(state => state);
+
     const handleAddButton = () => {
 
+        upSertCartItem(item, 1);
+
+        toast({
+            title:"Adicionado ao carrinho",
+            description: item.name,
+            action: <ToastAction altText="fechar">Fechar</ToastAction>
+        })
     }
 
     return (
